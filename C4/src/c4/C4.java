@@ -26,6 +26,9 @@ public class C4 extends JFrame{
     JCheckBox ai1 = new JCheckBox("AI?");
     JCheckBox ai2 = new JCheckBox("AI?");
     JButton play = new JButton("Play");
+
+    Board board;
+    int selectedColumn = 0;
     
     public C4(){
         super("Connect 4");
@@ -54,7 +57,9 @@ public class C4 extends JFrame{
                 player2.add(colour2);
                 player2.add(ai2);
             control.add(play);
-        add(game, BorderLayout.EAST);
+        add(game, BorderLayout.CENTER);
+        game.addMouseMotionListener(new mouseMoveListener());
+        game.addMouseListener(new mouseClickListener());
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -72,6 +77,14 @@ public class C4 extends JFrame{
         int w = game.getWidth();
         int h = game.getHeight();
         //Put code which directly redraws the board here, handle board interactions in the respective object however
+        if (board != null) {
+            board.render(g, selectedColumn);
+        }
+    }
+    
+    public Dimension getCanvasSize(){
+        Dimension size = game.getSize();
+        return size;
     }
     
     class colourPickListener implements ActionListener{
@@ -95,7 +108,52 @@ public class C4 extends JFrame{
     class playClickListener implements ActionListener{
         public void actionPerformed(ActionEvent event){
         //Code which initialises connect 4 board, read from check boxs and drop downs at this point if possible
+        board = new Board(game, "Red", "Blue");
+        game.repaint();
         }
+    }
+    
+    class mouseMoveListener implements MouseMotionListener {
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            float x = e.getX();
+            Dimension size = game.getSize();
+            float columnDifference = size.width/7;
+            selectedColumn = (int)Math.floor(x/columnDifference);
+            game.repaint();
+        }
+        
+    }
+    
+    class mouseClickListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            float x = e.getX();
+            Dimension size = game.getSize();
+            float columnDifference = size.width/7;
+            selectedColumn = (int)Math.floor(x/columnDifference);
+            board.takeTurn(selectedColumn);
+            game.repaint();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {}
+
+        @Override
+        public void mouseReleased(MouseEvent e) {}
+
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+
+        @Override
+        public void mouseExited(MouseEvent e) {}
+        
     }
     
     public static void main(String[] args){
