@@ -31,10 +31,9 @@ public class Board {
         boardArray = new Piece[7][7];
         for (int nx = 0; nx < 7; nx++) {
             for (int ny = 0; ny < 7; ny++) {
-                boardArray[nx][ny] = null;
+                boardArray[nx][ny] = new Piece();
             }
         }
-        boardArray[2][2] = new Piece(players[1]);
     }
     
     public void takeTurn(int selectedColumn) {
@@ -43,35 +42,34 @@ public class Board {
         } else if (turnNo == 1) {
             turnNo = 0;
         }
+        System.out.println("Turn No: "+turnNo);
         for (int n = 0; n < 7; n++) {
-            System.out.print("For loop");
             int slot = 6 - n;
-            System.out.print(slot);
-            if (boardArray[selectedColumn][slot] != null) {
-                System.out.print("Place found");
+            if (boardArray[selectedColumn][slot].getIsEmpty() == true) {
                 boardArray[selectedColumn][6-n] = new Piece(players[turnNo]);
+                break;
             }
-        }
-        System.out.println(boardArray);
+        } 
     }
     
     public void render(Graphics g, int selectedColumn) {
+        Dimension size = game.getSize();
         //Print columns and rows
         g.setColor(new Color(0, 0, 102));
-        Dimension size = game.getSize();
         for (int n = 0; n < 7; n++) {
-            g.drawLine(0, (size.height/7)*n, size.width, (size.height/7)*n);
             g.drawLine((size.width/7)*n, 0, (size.width/7)*n, size.height);
         }
+        for (int n = 0; n < 7; n++) {
+           g.drawLine(0, (size.height/7)*n, size.width, (size.height/7)*n);
+        }
         //Print hovering piece
+        g.setColor(players[turnNo].getColour());
         g.fillOval((size.width/7)*selectedColumn, 0, 100, 100);
         
         //Print pieces on the board
         for (int nx = 0; nx < 7; nx++) {
             for (int ny = 0; ny < 7; ny++) {
-                if (boardArray[nx][ny] != null) {
-                    boardArray[nx][ny].render(g, (size.width/7)*nx, (size.height/7)*ny);
-                }
+                boardArray[nx][ny].render(g, (size.width/7)*nx, (size.height/7)*ny, game.getSize());
             }
         }
     }

@@ -108,7 +108,7 @@ public class C4 extends JFrame{
     class playClickListener implements ActionListener{
         public void actionPerformed(ActionEvent event){
         //Code which initialises connect 4 board, read from check boxs and drop downs at this point if possible
-        board = new Board(game, "Red", "Blue");
+        board = new Board(game, "Red", "Green");
         game.repaint();
         }
     }

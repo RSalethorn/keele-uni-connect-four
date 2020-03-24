@@ -6,6 +6,7 @@
 package c4;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 /**
@@ -14,13 +15,25 @@ import java.awt.Graphics;
  */
 public class Piece {
     private Player player;
+    private boolean isEmpty;
     
     public Piece(Player piecePlayer) {
         player = piecePlayer;
+        isEmpty = false;
     }
     
-    public void render(Graphics g, int x, int y) {
-        g.setColor(player.getColour());
-        g.fillOval(x, y, 100, 100);
+    public Piece() {
+        isEmpty = true;
+    }
+    
+    public boolean getIsEmpty() {
+        return isEmpty;
+    }
+    public void render(Graphics g, int x, int y, Dimension size) {
+        if (isEmpty == false) {
+            g.setColor(player.getColour());
+            //System.out.println(player.getColour());
+            g.fillOval(x, y, size.height/7, size.height/7);
+        }
     }
 }

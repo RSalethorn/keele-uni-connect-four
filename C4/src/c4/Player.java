@@ -15,6 +15,7 @@ public class Player {
     private Color colour;
     
     public Player(String stringColour) {
+        System.out.println("String Colour: " + stringColour);
         colour = stringToColour(stringColour);
     }
     
@@ -24,16 +25,16 @@ public class Player {
     
     public Color stringToColour(String stringColour) {
         Color returnColour = null;
-        switch(stringColour) {
-            case "Red":
-                returnColour = new Color(255, 0, 0);
-            case "Green":
-                returnColour = new Color(0, 255, 0);
-            case "Yellow":
-                returnColour = new Color(255, 255, 0);
-            case "Blue":
-                returnColour = new Color(0, 0, 255);
+        if (stringColour == "Red") {
+            returnColour = new Color(255, 0, 0);
+        } else if (stringColour == "Green") {
+            returnColour = new Color(0, 255, 0);
+        } else if (stringColour == "Yellow") {
+            returnColour = new Color(255, 255, 0);
+        } else if (stringColour == "Blue") {
+            returnColour = new Color(0, 0, 255);
         }
         return returnColour;
     }
+    
 }
